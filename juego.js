@@ -5,6 +5,7 @@ var enemigos;
 var timer;
 var gasolinas;
 var timerGasolina;
+var soundCarro;
 
 var Juego = {
     preload: function() {
@@ -12,6 +13,7 @@ var Juego = {
         juego.load.image('carro','img/carro.png');
         juego.load.image('carroMalo','img/carroMalo.png');
         juego.load.image('gasolina','img/gas.png');
+        juego.load.audio('soundCarro','sounds/auto.mp3');
         juego.forceSingleUpdate = true;
     },
     create: function() {
@@ -45,6 +47,10 @@ var Juego = {
     },
     update: function() {
         fondo.tilePosition.y+=3;
+        /*Incorporando sonido*/
+        soundCarro = juego.sound.add('soundCarro');
+        soundCarro.play();
+        
         if(cursores.right.isDown && carro.position.x<245) {
             carro.position.x+=5;
         } else if (cursores.left.isDown && carro.position.x>45) {
