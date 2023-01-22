@@ -11,10 +11,11 @@ var Inicio = {
     create: function(){
         fondoInicio = juego.add.tileSprite(0,0,290,540,'bgInicio');
         btnStart = juego.add.button(80,260,'btn');
-        btnStart.onInputDown.add(goToGame, this);
+    },
+    update: function(){
+        if(juego.input.activePointer.isDown){
+            juego.state.start('Juego');
+        }
     }
     
 };
-function goToGame() {
-    juego.state.start('Juego');
-}

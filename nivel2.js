@@ -6,7 +6,6 @@ var timer;
 var gasolinas;
 var timerGasolina;
 var soundCarro;
-var soundPuntos;
 var puntos;
 var txtPuntos;
 var vidas;
@@ -15,14 +14,13 @@ var txtAutor;
 var txtNivel;
 //////
 
-var Juego = {
+var Nivel2 = {
     preload: function() {
         juego.load.image('bg','img/bg.png');
         juego.load.image('carro','img/auto.png');
-        juego.load.image('carroMalo','img/enemigo1.png');
+        juego.load.image('carroMalo','img/enemigo2.png');
         juego.load.image('gasolina','img/gas.png');
         juego.load.audio('soundCarro','sounds/auto.mp3');
-        juego.load.audio('soundPuntos','sounds/puntos.mp3');
         juego.forceSingleUpdate = true;
     },
     create: function() {
@@ -67,15 +65,14 @@ var Juego = {
         /*Nombre del Desarrollador*/
         txtAutor = juego.add.text(150,520,"Clever Salvador",{font:"14px Arial",fill:"#fff"})
         /*Nivel */
-        txtNivel = juego.add.text(40,520,"Nivel 1",{font:"14px Arial",fill:"#fff"})
+        txtNivel = juego.add.text(40,520,"Nivel 2",{font:"14px Arial",fill:"#fff"})
 
     },
     update: function() {
         fondo.tilePosition.y+=3;
         /*Incorporando sonido*/
-        soundCarro = juego.sound.add('soundCarro');
-        soundCarro.play();
-        soundCarro.onStop.add(this.loopSound,this);
+        //soundCarro = juego.sound.add('soundCarro');
+        //soundCarro.play();
 
         if(cursores.right.isDown && carro.position.x<245) {
             carro.position.x+=5;
@@ -90,21 +87,17 @@ var Juego = {
         if(vidas == 0) {
             juego.state.start('Terminado');
         }
-
-        if(puntos == 5) {
-            juego.state.start('Nivel2');
+        if(puntos == 5){
+            juego.state.start('Win');
         }
 
-    },
-    loopSound: function(){
-        soundCarro.play();
     },
     crearCarroMalo: function() {
         var position = Math.floor(Math.random()*3) + 1;
         var enemigo = enemigos.getFirstDead();
         enemigo.physicsBodyType = Phaser.Physics.ARCADE;
         enemigo.reset(position*73,0);
-        enemigo.body.velocity.y=200;
+        enemigo.body.velocity.y=400;
         enemigo.anchor.setTo(0.5);
     },
     crearGasolina: function() {
@@ -116,8 +109,6 @@ var Juego = {
         gasolina.anchor.setTo(0.5);
     },
     collisionGasolina: function(b,m) {
-        soundPuntos = juego.sound.add('soundPuntos');
-        soundPuntos.play();
         m.kill();
         puntos++;
         txtPuntos.text = puntos;
