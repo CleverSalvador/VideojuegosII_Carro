@@ -21,7 +21,7 @@ var Juego = {
         juego.load.image('carro','img/auto.png');
         juego.load.image('carroMalo','img/enemigo1.png');
         juego.load.image('gasolina','img/gas.png');
-        juego.load.audio('soundCarro','sounds/auto.mp3');
+        juego.load.audio('soundCarro','sounds/sountrack.mp3');
         juego.load.audio('soundPuntos','sounds/puntos.mp3');
         juego.forceSingleUpdate = true;
     },
