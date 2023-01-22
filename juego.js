@@ -26,7 +26,9 @@ var Juego = {
         juego.forceSingleUpdate = true;
     },
     create: function() {
-
+        soundCarro = juego.sound.add('soundCarro');
+        soundCarro.play();
+       
         fondo = juego.add.tileSprite(0,0,290,540,'bg');
         juego.physics.startSystem(Phaser.Physics.ARCADE);
         carro = juego.add.sprite(juego.width/2,496,'carro');
@@ -73,9 +75,7 @@ var Juego = {
     update: function() {
         fondo.tilePosition.y+=3;
         /*Incorporando sonido*/
-        soundCarro = juego.sound.add('soundCarro');
-        soundCarro.play();
-        soundCarro.onStop.add(this.loopSound,this);
+        
 
         if(cursores.right.isDown && carro.position.x<245) {
             carro.position.x+=5;
@@ -88,16 +88,15 @@ var Juego = {
         juego.physics.arcade.overlap(carro,enemigos,this.collisionEnemigos,null,this);
 
         if(vidas == 0) {
+            soundCarro.stop();
             juego.state.start('Terminado');
         }
 
         if(puntos == 5) {
+            soundCarro.stop();
             juego.state.start('Nivel2');
         }
 
-    },
-    loopSound: function(){
-        soundCarro.play();
     },
     crearCarroMalo: function() {
         var position = Math.floor(Math.random()*3) + 1;

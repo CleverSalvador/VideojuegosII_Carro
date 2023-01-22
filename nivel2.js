@@ -6,6 +6,7 @@ var timer;
 var gasolinas;
 var timerGasolina;
 var soundCarro;
+var soundPuntos;
 var puntos;
 var txtPuntos;
 var vidas;
@@ -20,10 +21,14 @@ var Nivel2 = {
         juego.load.image('carro','img/auto.png');
         juego.load.image('carroMalo','img/enemigo2.png');
         juego.load.image('gasolina','img/gas.png');
-        juego.load.audio('soundCarro','sounds/auto.mp3');
+        juego.load.audio('soundCarro','sounds/sountrack.mp3');
+        juego.load.audio('soundPuntos','sounds/puntos.mp3');
         juego.forceSingleUpdate = true;
     },
     create: function() {
+
+        soundCarro = juego.sound.add('soundCarro');
+        soundCarro.play();
 
         fondo = juego.add.tileSprite(0,0,290,540,'bg');
         juego.physics.startSystem(Phaser.Physics.ARCADE);
@@ -70,10 +75,6 @@ var Nivel2 = {
     },
     update: function() {
         fondo.tilePosition.y+=3;
-        /*Incorporando sonido*/
-        //soundCarro = juego.sound.add('soundCarro');
-        //soundCarro.play();
-
         if(cursores.right.isDown && carro.position.x<245) {
             carro.position.x+=5;
         } else if (cursores.left.isDown && carro.position.x>45) {
@@ -85,9 +86,11 @@ var Nivel2 = {
         juego.physics.arcade.overlap(carro,enemigos,this.collisionEnemigos,null,this);
 
         if(vidas == 0) {
+            soundCarro.stop();
             juego.state.start('Terminado');
         }
         if(puntos == 5){
+            soundCarro.stop();
             juego.state.start('Win');
         }
 
@@ -109,6 +112,8 @@ var Nivel2 = {
         gasolina.anchor.setTo(0.5);
     },
     collisionGasolina: function(b,m) {
+        soundPuntos = juego.sound.add('soundPuntos');
+        soundPuntos.play();
         m.kill();
         puntos++;
         txtPuntos.text = puntos;
